@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>How to Play — Code Golf</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">⛳ code<span>.golf</span></a>
+  <div class="nav-links">
+    <a href="index.html">Challenges</a>
+    <a href="leaderboard.html">Leaderboard</a>
+    <a href="how-to-play.html" class="active">How to Play</a>
+  </div>
+</nav>
+
+<div class="page-container">
+  <h1 class="page-title">How to <span class="accent">Play</span></h1>
+  <p class="page-subtitle">// your guide to becoming a code golf champion</p>
+
+  <div class="how-section">
+    <h3>⛳ What is Code Golf?</h3>
+    <p>Code Golf is the art of solving programming challenges using as few characters as possible. Like golf, the lowest score wins. You'll need to think creatively — using Python's built-ins, one-liners, and clever tricks to shrink your code to its smallest possible form.</p>
+  </div>
+
+  <div class="how-section">
+    <h3>🎮 Game Rules</h3>
+    <ul>
+      <li>Each challenge requires you to write a Python function named <code style="font-family:'JetBrains Mono',monospace;background:var(--bg3);padding:0.1rem 0.4rem;border-radius:4px;color:var(--cyan)">f()</code> that returns the correct output.</li>
+      <li>Your solution is tested against multiple hidden test cases automatically.</li>
+      <li>All test cases must pass before you can submit.</li>
+      <li>Your score is based on character count — fewer characters = higher score.</li>
+      <li>Beat the "par score" for a bonus 200 points.</li>
+      <li>Solve in under 3 minutes for a speed bonus of 100 points.</li>
+      <li>Your personal best per challenge is saved automatically.</li>
+    </ul>
+  </div>
+
+  <div class="how-section">
+    <h3>⌨️ Keyboard Shortcuts</h3>
+    <ul>
+      <li><code style="font-family:'JetBrains Mono',monospace;background:var(--bg3);padding:0.1rem 0.4rem;border-radius:4px;color:var(--cyan)">Ctrl + Enter</code> — Run your code</li>
+      <li><code style="font-family:'JetBrains Mono',monospace;background:var(--bg3);padding:0.1rem 0.4rem;border-radius:4px;color:var(--cyan)">Tab</code> — Insert 4 spaces</li>
+    </ul>
+  </div>
+
+  <div class="how-section">
+    <h3>🐍 Python Golf Tips & Tricks</h3>
+    <div class="tip-grid">
+      <div class="tip-card">
+        <div class="tip-title">List Comprehensions</div>
+        <pre><span class="tip-bad"># Long way (4 lines)
+result = []
+for x in lst:
+    if x > 0:
+        result.append(x*2)</span>
+
+<span class="tip-good"># Golf way (1 line)
+[x*2 for x in lst if x>0]</span></pre>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">Lambda + Built-ins</div>
+        <pre><span class="tip-bad"># Long way
+def f(lst):
+    return sum(lst)/len(lst)</span>
+
+<span class="tip-good"># Golf way
+f=lambda l:sum(l)/len(l)</span></pre>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">Ternary Operators</div>
+        <pre><span class="tip-bad"># Long way
+if x > 0:
+    return "pos"
+else:
+    return "neg"</span>
+
+<span class="tip-good"># Golf way
+return"pos"if x>0 else"neg"</span></pre>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">Useful Built-ins</div>
+        <pre><span class="tip-good">sum([1,2,3])      # 6
+sorted(lst)        # sorted
+set([1,1,2])       # {1,2}
+zip(*matrix)       # transpose
+map(int, strings)  # convert
+"".join(lst)       # join</span></pre>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">String Slicing</div>
+        <pre><span class="tip-good">s[::-1]     # reverse
+s[::2]      # every 2nd char
+s[1:-1]     # strip first+last</span>
+
+<span class="tip-bad">reversed(s)  # longer!</span></pre>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">Imports to Know</div>
+        <pre><span class="tip-good">from collections import Counter
+# Counter("aabb") → {a:2,b:2}
+
+from itertools import groupby
+# groups consecutive elements
+
+from functools import reduce
+# reduce(lambda a,b:a+b,[1,2,3])</span></pre>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">Remove Spaces</div>
+        <pre><span class="tip-bad">return x * 2
+if x == 0:</span>
+
+<span class="tip-good">return x*2
+if x==0:</span></pre>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">Semicolons</div>
+        <pre><span class="tip-bad">a = 1
+b = 2
+c = a + b</span>
+
+<span class="tip-good">a=1;b=2;c=a+b</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="how-section">
+    <h3>🏆 Difficulty Breakdown</h3>
+    <ul>
+      <li><span style="color:var(--easy);font-weight:700">Easy (1–5)</span> — Warm-up challenges. Basic Python. Great for beginners.</li>
+      <li><span style="color:var(--medium);font-weight:700">Medium (6–10)</span> — Requires knowledge of built-ins and algorithms.</li>
+      <li><span style="color:var(--hard);font-weight:700">Hard (11–15)</span> — Tricky logic, advanced Python idioms. Think differently.</li>
+    </ul>
+  </div>
+
+  <div style="text-align:center;padding:2rem 0">
+    <a href="index.html" style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.85rem;padding:0.8rem 2rem;background:var(--green-glow);border:1px solid var(--green);color:var(--green);text-decoration:none;border-radius:8px;font-weight:600;letter-spacing:1px;transition:all 0.2s" onmouseover="this.style.background='var(--green)';this.style.color='#080b10'" onmouseout="this.style.background='var(--green-glow)';this.style.color='var(--green)'">
+      ▶ Start Golfing
+    </a>
+  </div>
+</div>
+
+</body>
+</html>

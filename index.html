@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>⛳ Code Golf — Python Edition</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <!-- CodeMirror -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+  <!-- Pyodide - must load before game.js runs -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">⛳ code<span>.golf</span></a>
+  <div class="nav-links">
+    <a href="index.html" class="active">Challenges</a>
+    <a href="leaderboard.html">Leaderboard</a>
+    <a href="how-to-play.html">How to Play</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Python · 15 Challenges · Browser-native</div>
+  <h1>Solve it.<br><span class="accent">Shrink it.</span><br>Win it.</h1>
+  <p>Write the shortest Python code that passes all test cases.<br>Every character counts.</p>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="num">15</div>
+    <div class="label">Challenges</div>
+  </div>
+  <div class="stat-item">
+    <div class="num" id="hero-solved">0</div>
+    <div class="label">Solved</div>
+  </div>
+  <div class="stat-item">
+    <div class="num" id="hero-score">0</div>
+    <div class="label">Your Score</div>
+  </div>
+  <div class="stat-item">
+    <div class="num">3</div>
+    <div class="label">Difficulties</div>
+  </div>
+</div>
+
+<!-- PLAYER NAME -->
+<div class="player-bar">
+  <label for="player-name">Your name:</label>
+  <input id="player-name" type="text" placeholder="Enter your name..." maxlength="30"/>
+</div>
+
+<!-- DIFFICULTY FILTER -->
+<div class="filters">
+  <button class="filter-btn" data-filter="All">All (15)</button>
+  <button class="filter-btn" data-filter="Easy">Easy (5)</button>
+  <button class="filter-btn" data-filter="Medium">Medium (5)</button>
+  <button class="filter-btn" data-filter="Hard">Hard (5)</button>
+</div>
+
+<!-- CHALLENGES GRID -->
+<div class="challenges-grid" id="challenges-grid"></div>
+
+<!-- ═══ CHALLENGE MODAL ═══ -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <div class="modal-title-area">
+        <h2 id="modal-challenge-title">Challenge Title</h2>
+        <div class="modal-meta" id="modal-meta">#01 · Easy · par: 20 chars</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.6rem">
+        <span class="difficulty-badge" id="modal-badge">Easy</span>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="modal-body">
+
+      <!-- LEFT: Description + Editor -->
+      <div class="modal-left">
+        <div class="section-label">The Challenge</div>
+        <p class="challenge-desc" id="challenge-description"></p>
+
+        <div class="section-label">Example</div>
+        <div class="example-box">
+          <div class="ex-label">Input</div>
+          <div class="ex-val" id="example-input"></div>
+          <div class="ex-label" style="margin-top:0.5rem">Output</div>
+          <div class="ex-val" id="example-output"></div>
+        </div>
+
+        <div class="section-label">Your Solution</div>
+        <div class="timer-display" id="timer">⏱ 00:00</div>
+
+        <div class="editor-wrapper">
+          <div class="editor-toolbar">
+            <span class="editor-lang">Python 3 · Pyodide</span>
+            <span class="char-counter over-par" id="char-counter">0 chars</span>
+          </div>
+          <textarea id="code-editor"></textarea>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-run" id="btn-run" onclick="runCode()">▶ Run Code</button>
+          <button class="btn btn-submit" id="btn-submit" onclick="submitSolution()" disabled>⬆ Submit</button>
+          <button class="btn btn-reset" onclick="resetCode()">↺ Reset</button>
+          <button class="btn btn-hint" onclick="showHint()">💡 Hint</button>
+        </div>
+
+        <!-- Score Panel -->
+        <div class="score-panel" id="score-panel">
+          <div class="section-label" style="margin-bottom:0.6rem">Score Breakdown</div>
+          <div class="score-row"><span>Base score</span><span id="score-base">+1000</span></div>
+          <div class="score-row"><span>Character penalty</span><span class="deduct" id="score-chars">-0</span></div>
+          <div class="score-row"><span>Under-par bonus</span><span class="bonus" id="score-par-bonus">+0</span></div>
+          <div class="score-row"><span>Speed bonus (&lt;3 min)</span><span class="bonus" id="score-speed-bonus">+0</span></div>
+          <div class="score-row"><span>Total</span><span id="score-total">0</span></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Test Results -->
+      <div class="modal-right">
+        <div class="section-label">Test Cases</div>
+        <div class="test-results" id="test-results">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-dim);padding:0.5rem 0;">
+            Click "▶ Run Code" to test your solution (Ctrl+Enter)
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /modal-body -->
+  </div><!-- /modal -->
+</div><!-- /modal-overlay -->
+
+<!-- PYODIDE LOADER -->
+<div class="pyodide-loader" id="pyodide-loader">
+  <div class="loader-dot" id="loader-dot"></div>
+  <span id="loader-text">Loading Python engine...</span>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="js/challenges.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>

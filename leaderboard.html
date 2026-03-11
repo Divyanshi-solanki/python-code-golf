@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Leaderboard — Code Golf</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">⛳ code<span>.golf</span></a>
+  <div class="nav-links">
+    <a href="index.html">Challenges</a>
+    <a href="leaderboard.html" class="active">Leaderboard</a>
+    <a href="how-to-play.html">How to Play</a>
+  </div>
+</nav>
+
+<div class="page-container">
+  <h1 class="page-title">Leader<span class="accent">board</span></h1>
+  <p class="page-subtitle">// ranked by total score · updated on each submission</p>
+
+  <!-- Player Stats -->
+  <div id="player-stats"></div>
+
+  <!-- Global Leaderboard -->
+  <div class="how-section" style="padding:0;overflow:hidden">
+    <div style="padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);background:var(--bg3)">
+      <h3 style="font-size:0.9rem;font-weight:700;color:var(--green);margin:0">🏆 Global Rankings</h3>
+    </div>
+    <div style="padding:0 0.5rem">
+      <table class="lb-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Player</th>
+            <th>Solved</th>
+            <th>Score</th>
+            <th>Best (chars)</th>
+          </tr>
+        </thead>
+        <tbody id="lb-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Score Guide -->
+  <div class="how-section" style="margin-top:1.5rem">
+    <h3>📐 Scoring Formula</h3>
+    <div class="tip-grid">
+      <div class="tip-card">
+        <div class="tip-title">Base Score</div>
+        <pre>1000 points per challenge</pre>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">Character Penalty</div>
+        <pre>-10 points per character</pre>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">Under-Par Bonus</div>
+        <pre class="tip-good">+200 if chars ≤ par score</pre>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">Speed Bonus</div>
+        <pre class="tip-good">+100 if solved in &lt; 3 mins</pre>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="js/challenges.js"></script>
+<script src="js/game.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    renderLeaderboard();
+    renderPlayerStats();
+  });
+</script>
+</body>
+</html>
